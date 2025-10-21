@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather | 极致天气体验</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 动态粒子背景 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 搜索区域 -->
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="搜索城市..." class="search-input">
+            <button id="searchBtn" class="search-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button id="locationBtn" class="location-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 加载动画 -->
+        <div class="loader" id="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+        </div>
+
+        <!-- 天气主卡片 -->
+        <div class="weather-card" id="weatherCard">
+            <!-- 城市信息 -->
+            <div class="city-info">
+                <h1 class="city-name" id="cityName">北京</h1>
+                <p class="date-time" id="dateTime">2024年1月1日 星期一 12:00</p>
+            </div>
+
+            <!-- 当前天气 -->
+            <div class="current-weather">
+                <div class="weather-icon-container">
+                    <div class="weather-icon" id="weatherIcon">
+                        <div class="sun">
+                            <div class="sun-rays"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="temperature-container">
+                    <div class="temperature" id="temperature">25°</div>
+                    <div class="weather-description" id="weatherDesc">晴朗</div>
+                </div>
+            </div>
+
+            <!-- 天气详情 -->
+            <div class="weather-details">
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2.69L5.636 9.054H2L9.273 2.018C10.153 1.156 11.077 0.5 12 0.5C12.923 0.5 13.847 1.156 14.727 2.018L22 9.054H18.364L12 2.69Z" fill="currentColor"/>
+                            <path d="M12 21.31L18.364 14.946H22L14.727 21.982C13.847 22.844 12.923 23.5 12 23.5C11.077 23.5 10.153 22.844 9.273 21.982L2 14.946H5.636L12 21.31Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="detail-info">
+                        <span class="detail-label">体感温度</span>
+                        <span class="detail-value" id="feelsLike">23°</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2.25C11.0054 2.25 10.0516 2.64509 9.34835 3.34835C8.64509 4.05161 8.25 5.00544 8.25 6V13.5C6.73122 14.3463 5.75 15.9854 5.75 18C5.75 19.3924 6.30312 20.7277 7.28769 21.7123C8.27226 22.6969 9.60761 23.25 11 23.25H13C14.3924 23.25 15.7277 22.6969 16.7123 21.7123C17.6969 20.7277 18.25 19.3924 18.25 18C18.25 15.9854 17.2688 14.3463 15.75 13.5V6C15.75 5.00544 15.3549 4.05161 14.6517 3.34835C13.9484 2.64509 12.9946 2.25 12 2.25Z" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="detail-info">
+                        <span class="detail-label">湿度</span>
+                        <span class="detail-value" id="humidity">65%</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9.59 4.59C10.87 2.16 14.4 1.54 17.17 3.66C19.94 5.78 20.6 9.29 18.9 12.05L12 22L5.1 12.05C3.4 9.29 4.06 5.78 6.83 3.66C9.6 1.54 13.13 2.16 14.41 4.59" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="detail-info">
+                        <span class="detail-label">风速</span>
+                        <span class="detail-value" id="windSpeed">12 km/h</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="detail-info">
+                        <span class="detail-label">气压</span>
+                        <span class="detail-value" id="pressure">1013 hPa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 每小时预报 -->
+            <div class="hourly-forecast">
+                <h3 class="section-title">24小时预报</h3>
+                <div class="hourly-scroll" id="hourlyForecast">
+                    <!-- 通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 7天预报 -->
+            <div class="weekly-forecast">
+                <h3 class="section-title">7天预报</h3>
+                <div class="weekly-list" id="weeklyForecast">
+                    <!-- 通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 错误提示 -->
+        <div class="error-message" id="errorMessage">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="16" r="1" fill="currentColor"/>
+            </svg>
+            <span id="errorText">出错了</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
