@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>复古录音机 | Retro Voice Recorder</title>
+    <link rel="stylesheet" href="recorder.css">
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="bg-decoration"></div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 风格切换器 -->
+        <div class="theme-switcher">
+            <h3>选择风格</h3>
+            <div class="theme-buttons">
+                <button class="theme-btn active" data-theme="cassette">
+                    <span>📼</span>
+                    <span>卡带机</span>
+                </button>
+                <button class="theme-btn" data-theme="reel">
+                    <span>🎙️</span>
+                    <span>磁带机</span>
+                </button>
+                <button class="theme-btn" data-theme="walkman">
+                    <span>🎧</span>
+                    <span>随身听</span>
+                </button>
+                <button class="theme-btn" data-theme="vintage">
+                    <span>📻</span>
+                    <span>电子录音机</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 录音机主体 -->
+        <div class="recorder" id="recorder" data-theme="cassette">
+            <!-- 品牌标识 -->
+            <div class="brand">
+                <div class="brand-name">RETRO</div>
+                <div class="brand-model">VR-2000</div>
+            </div>
+
+            <!-- 磁带/显示区域 -->
+            <div class="tape-area">
+                <div class="cassette">
+                    <div class="reel reel-left">
+                        <div class="reel-inner"></div>
+                    </div>
+                    <div class="reel reel-right">
+                        <div class="reel-inner"></div>
+                    </div>
+                    <div class="tape-window">
+                        <div class="tape-line"></div>
+                    </div>
+                </div>
+
+                <!-- 数字显示屏 -->
+                <div class="display">
+                    <div class="display-time" id="displayTime">00:00</div>
+                    <div class="display-status" id="displayStatus">READY</div>
+                    <div class="level-meter">
+                        <div class="level-bar" id="levelBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 控制按钮区 -->
+            <div class="controls">
+                <button class="control-btn record-btn" id="recordBtn" title="录音">
+                    <div class="btn-inner">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="12" r="8"/>
+                        </svg>
+                    </div>
+                    <span>REC</span>
+                </button>
+
+                <button class="control-btn stop-btn" id="stopBtn" title="停止">
+                    <div class="btn-inner">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="6" width="12" height="12"/>
+                        </svg>
+                    </div>
+                    <span>STOP</span>
+                </button>
+
+                <button class="control-btn play-btn" id="playBtn" title="播放">
+                    <div class="btn-inner">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                    <span>PLAY</span>
+                </button>
+
+                <button class="control-btn pause-btn" id="pauseBtn" title="暂停">
+                    <div class="btn-inner">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16"/>
+                            <rect x="14" y="4" width="4" height="16"/>
+                        </svg>
+                    </div>
+                    <span>PAUSE</span>
+                </button>
+            </div>
+
+            <!-- VU表 -->
+            <div class="vu-meter">
+                <div class="vu-label">VU METER</div>
+                <div class="vu-bars">
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                    <div class="vu-bar"></div>
+                </div>
+            </div>
+
+            <!-- 录音列表 -->
+            <div class="recordings-section">
+                <h3 class="recordings-title">录音列表</h3>
+                <div class="recordings-list" id="recordingsList">
+                    <div class="empty-state">暂无录音</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="recorder.js"></script>
+</body>
+</html>
