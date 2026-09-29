@@ -150,8 +150,36 @@ tr:last-child td{border-bottom:0}
         <li>居中弹窗改为底部面板，一句话说清：<b>去哪看</b>、<b>会通知</b>。</li>
         <li>"打开 App 查看"直接进入这条笔记（深链带 <code>note_id</code>）；未装 App 跳下载页。</li>
         <li><b>删掉"查看同步进度"</b>：H5 页面上的状态条就是进度。</li>
-        <li>关闭面板后，底部按钮变为"已保存 · 打开 App 查看"。</li>
         <li>未登录时先走登录，登录后自动完成保存。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>弹窗关闭后</h3>
+  <div class="spec">
+    <div class="phone">
+      <div class="sb"><span>12:10</span><span>63</span></div>
+      <div class="body">
+        <div class="hd"><div class="logo">脑</div><b>得到大脑</b><span class="btn dark sm">打开App</span></div>
+        <div class="pad" style="padding-bottom:6px"><div class="mtitle">9月29日 11:57 会议</div><div class="minfo">时长 11 分钟 · 会议室 A 录音台</div></div>
+        <div class="status"><img class="xb" src="img/xiaobu.png" alt="小步"><div class="st"><b>小步正在深度分析</b><span>预计 3-5 分钟完成</span><div class="bar"><i></i></div></div></div>
+        <div class="pad" style="padding-top:0">
+          <span class="chip">速览</span>
+          <div class="sec">城市 AI 岗位相关说明</div>
+          <div class="li">北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位</div>
+          <div class="li">16 座主要城市近三年 AI 岗位占比均提升，北京 4.8% 居首</div>
+          <div class="sec">AI 就业相关讨论</div>
+          <div class="li">AI 人才不再仅集中于互联网行业</div>
+        </div>
+        <div class="cta"><small>✓ 已保存到你的笔记，生成后在 App 笔记列表查看</small><span class="btn dark">打开 App 查看</span></div>
+      </div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li>页面内容不变，状态条继续走进度，生成完成后正文自动换成完整纪要。</li>
+        <li>底部灰字换成"✓ 已保存到你的笔记，生成后在 App 笔记列表查看"，替换原来的有效期提示。</li>
+        <li>按钮从"保存笔记"变为"打开 App 查看"，避免重复保存。</li>
+        <li>用户刷新或再次碰一碰打开这个页面时，只要已保存，就直接展示这个状态。</li>
       </ul>
     </div>
   </div>
