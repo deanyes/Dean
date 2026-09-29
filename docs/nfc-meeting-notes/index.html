@@ -2,519 +2,231 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: 单列规格文档（最宽 1080），现状截图与改版示意并排对照，手机示意用纯 CSS 绘制 */
+/* Layout: 单列文档，最宽 980；每个页面左侧手机示意、右侧要点 */
 :root{
   --bg:#f6f5f3; --paper:#ffffff; --fg:#1d1b19; --muted:#6f6a64; --line:#e4e0da;
-  --accent:#f0701e; --accent-soft:#fdeee3; --ink:#2a2d33;
-  --ok:#1f9d63; --ok-soft:#e3f5ec; --warn:#c9820a; --warn-soft:#fbf1dc; --bad:#d4443a; --bad-soft:#fbe6e4;
-  --phone-bg:#ffffff; --phone-sub:#f4f3f1; --phone-fg:#1d1b19;
+  --accent:#f0701e; --accent-soft:#fdeee3; --ink:#2a2d33; --bad:#d4443a;
+  --phone-bg:#ffffff; --phone-sub:#f4f3f1;
   --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#161514; --paper:#1f1e1c; --fg:#ece8e3; --muted:#a39d95; --line:#34312d;
-  --accent:#ff8a3d; --accent-soft:#3a2517; --ink:#e9e6e1;
-  --ok:#4cc38a; --ok-soft:#173a29; --warn:#e3a53b; --warn-soft:#3a2d12; --bad:#ef6b61; --bad-soft:#3d1c19;
-  --phone-bg:#0f0f0f; --phone-sub:#1c1c1c; --phone-fg:#eee; color-scheme:dark}}
+  --accent:#ff8a3d; --accent-soft:#3a2517; --ink:#e9e6e1; --bad:#ef6b61;
+  --phone-bg:#0f0f0f; --phone-sub:#1c1c1c; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#161514; --paper:#1f1e1c; --fg:#ece8e3; --muted:#a39d95; --line:#34312d;
-  --accent:#ff8a3d; --accent-soft:#3a2517; --ink:#e9e6e1;
-  --ok:#4cc38a; --ok-soft:#173a29; --warn:#e3a53b; --warn-soft:#3a2d12; --bad:#ef6b61; --bad-soft:#3d1c19;
-  --phone-bg:#0f0f0f; --phone-sub:#1c1c1c; --phone-fg:#eee; color-scheme:dark}
+  --accent:#ff8a3d; --accent-soft:#3a2517; --ink:#e9e6e1; --bad:#ef6b61;
+  --phone-bg:#0f0f0f; --phone-sub:#1c1c1c; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
-.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+.wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
 h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
-h1{font-size:32px;font-weight:900;letter-spacing:.01em}
-h2{font-size:23px;font-weight:700;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:baseline}
-h2 .no{font-family:var(--f-mono);font-size:14px;color:var(--accent);font-weight:600}
-h3{font-size:17px;font-weight:700;margin-top:28px}
-p{margin:10px 0;max-width:72ch}
-.lead{color:var(--muted);font-size:16px;max-width:70ch}
-code,.mono{font-family:var(--f-mono);font-size:.86em}
-code{background:var(--phone-sub);padding:1px 5px;border-radius:4px}
-.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px;margin-top:14px}
-.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;line-height:1.6;white-space:nowrap}
-.p0{background:var(--bad-soft);color:var(--bad)} .p1{background:var(--warn-soft);color:var(--warn)} .p2{background:var(--ok-soft);color:var(--ok)}
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:24px}
-.summary > div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
-.summary b{display:block;font-size:15px;margin-bottom:4px}
-.summary span{color:var(--muted);font-size:14px}
-table{border-collapse:collapse;width:100%;font-size:14px;background:var(--paper)}
+h1{font-size:28px;font-weight:900}
+h2{font-size:21px;font-weight:700;margin-top:48px;padding-top:22px;border-top:1px solid var(--line)}
+h3{font-size:16px;font-weight:700;margin-top:26px}
+p{margin:10px 0;max-width:70ch}
+.lead{color:var(--muted);max-width:66ch}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--phone-sub);padding:1px 5px;border-radius:4px}
+ul.clean{padding-left:20px;margin:8px 0} ul.clean li{margin:5px 0;max-width:70ch}
+.bug{color:var(--bad);font-weight:700}
+
+.shots{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px;margin-top:16px}
+.shot{flex:0 0 180px}
+.shot img{width:180px;border-radius:14px;border:1px solid var(--line);display:block}
+.shot p{font-size:13px;margin-top:8px;line-height:1.5}
+
+.spec{display:grid;grid-template-columns:280px 1fr;gap:28px;margin-top:18px;align-items:start}
+.spec > div{min-width:0}
+@media (max-width:720px){.spec{grid-template-columns:1fr}.spec .phone{margin:0 auto}}
+
 .tbl{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--paper)}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-weight:700;background:var(--phone-sub);white-space:nowrap}
 tr:last-child td{border-bottom:0}
-ul.clean{padding-left:20px;margin:8px 0} ul.clean li{margin:4px 0;max-width:72ch}
 
-/* 现状截图条 */
-.shots{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px;margin-top:16px}
-.shot{flex:0 0 190px;min-width:0}
-.shot img{width:190px;border-radius:14px;border:1px solid var(--line);display:block}
-.shot .cap{font-size:13px;margin-top:8px;line-height:1.5}
-.shot .cap b{color:var(--bad);font-family:var(--f-mono);margin-right:4px}
-
-/* 问题清单 */
-.issues{display:grid;gap:10px;margin-top:16px}
-.issue{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
-.issue .id{font-family:var(--f-mono);font-weight:600;color:var(--bad);font-size:13px;padding-top:2px}
-.issue div{min-width:0} .issue small{color:var(--muted);display:block;font-size:13px}
-
-/* 页面方案：左示意右说明 */
-.spec{display:grid;grid-template-columns:300px 1fr;gap:28px;margin-top:22px;align-items:start}
-.spec .notes{min-width:0}
-@media (max-width:760px){.spec{grid-template-columns:1fr}.spec .phone{margin:0 auto}}
-.notes ol{padding-left:22px;margin:6px 0} .notes li{margin:6px 0}
-.notes .k{font-family:var(--f-mono);font-size:12px;color:var(--accent);font-weight:600;background:var(--accent-soft);border-radius:4px;padding:0 5px;margin-right:4px}
-
-/* ===== 手机示意 ===== */
-.phone{width:300px;max-width:100%;border:8px solid #1b1b1b;border-radius:36px;background:var(--phone-bg);color:var(--phone-fg);overflow:hidden;position:relative;font-size:12px;line-height:1.55;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-.phone .sb{height:26px;display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-size:11px;font-weight:700}
-.phone .body{height:560px;overflow:hidden;position:relative}
+/* 手机示意 */
+.phone{width:280px;max-width:100%;border:8px solid #1b1b1b;border-radius:34px;background:var(--phone-bg);color:var(--fg);overflow:hidden;font-size:12px;line-height:1.55}
+.phone .sb{height:24px;display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-size:11px;font-weight:700}
+.phone .body{height:500px;overflow:hidden;position:relative}
 .hd{display:flex;align-items:center;gap:6px;padding:6px 12px 8px;border-bottom:1px solid var(--phone-sub)}
 .logo{width:18px;height:18px;border-radius:5px;background:var(--ink);color:var(--phone-bg);font-size:10px;display:grid;place-items:center;font-weight:900}
-.hd .t{flex:1;min-width:0}.hd .t b{display:block;font-size:13px}.hd .t span{font-size:10px;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;border-radius:99px;font-weight:700;font-size:12px;padding:6px 12px;white-space:nowrap}
-.btn.dark{background:var(--ink);color:var(--phone-bg)} .btn.ghost{border:1px solid var(--line);color:var(--phone-fg)} .btn.sm{font-size:10px;padding:3px 9px}
-.btn.acc{background:var(--accent);color:#fff}
+.hd b{flex:1;font-size:13px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:99px;font-weight:700;font-size:12px;padding:6px 12px;white-space:nowrap}
+.btn.dark{background:var(--ink);color:var(--phone-bg)} .btn.ghost{border:1px solid var(--line)} .btn.sm{font-size:10px;padding:3px 9px}
 .pad{padding:10px 12px}
-.mtitle{font-size:16px;font-weight:900;line-height:1.35}
-.minfo{color:var(--muted);font-size:10.5px;margin-top:3px}
-.status{margin:8px 12px;border-radius:12px;background:var(--accent-soft);padding:10px 11px}
-.status .row{display:flex;gap:8px;align-items:center}
-.owl{width:30px;height:30px;border-radius:50%;background:var(--accent);flex:0 0 30px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:13px}
-.status b{font-size:13px} .status .eta{font-size:10.5px;color:var(--muted)}
-.bar{height:5px;border-radius:9px;background:rgba(240,112,30,.18);margin-top:8px;overflow:hidden}
-.bar i{display:block;height:100%;width:62%;background:var(--accent);border-radius:9px;position:relative;overflow:hidden}
-.bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:sh 1.6s infinite}
-@keyframes sh{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-@media (prefers-reduced-motion:reduce){.bar i::after{animation:none}}
-.steps{display:flex;justify-content:space-between;margin-top:7px;font-size:9.5px;color:var(--muted)}
-.steps span.d{color:var(--ok);font-weight:700} .steps span.c{color:var(--accent);font-weight:700}
-.chip{display:inline-block;font-size:9.5px;font-weight:700;padding:0 6px;border-radius:5px;background:var(--phone-sub);color:var(--muted)}
-.chip.acc{background:var(--accent-soft);color:var(--accent)} .chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.bad{background:var(--bad-soft);color:var(--bad)}
-.sec{font-weight:700;font-size:12.5px;margin-top:8px}
+.mtitle{font-size:15px;font-weight:900;line-height:1.35}
+.minfo{color:var(--muted);font-size:10.5px;margin-top:2px}
+.status{margin:4px 12px 8px;border-radius:10px;background:var(--accent-soft);padding:9px 11px}
+.status b{font-size:12.5px} .status span{font-size:10.5px;color:var(--muted);margin-left:6px}
+.bar{height:4px;border-radius:9px;background:rgba(240,112,30,.18);margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;width:60%;background:var(--accent);border-radius:9px}
+.chip{display:inline-block;font-size:9.5px;font-weight:700;padding:0 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent)}
+.sec{font-weight:700;font-size:12px;margin-top:8px}
 .li{font-size:11px;color:var(--muted);padding-left:10px;position:relative;margin-top:3px}
 .li::before{content:"";position:absolute;left:2px;top:7px;width:3px;height:3px;border-radius:50%;background:var(--muted)}
-.skel{height:8px;border-radius:4px;background:var(--phone-sub);margin-top:6px}
-.cta{position:absolute;left:0;right:0;bottom:0;background:var(--phone-bg);border-top:1px solid var(--phone-sub);padding:8px 12px 12px}
-.cta .exp{font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px}
-.cta .two{display:flex;gap:8px}.cta .two .btn{flex:1;padding:9px 0}
-.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--phone-bg);border-radius:16px 16px 0 0;padding:14px 14px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.15)}
+.cta{position:absolute;left:0;right:0;bottom:0;background:var(--phone-bg);border-top:1px solid var(--phone-sub);padding:8px 12px 12px;text-align:center}
+.cta small{display:block;font-size:10px;color:var(--muted);margin-bottom:6px}
+.cta .btn{width:100%;padding:9px 0}
 .dim{position:absolute;inset:0;background:rgba(0,0,0,.42)}
-.sheet h4{margin:0;font-size:15px;display:flex;align-items:center;gap:6px}
-.ok-i{width:18px;height:18px;border-radius:50%;background:var(--ok);color:#fff;font-size:11px;display:grid;place-items:center}
-.where{margin-top:10px;border:1px dashed var(--line);border-radius:10px;padding:8px}
-.where .mini{background:var(--phone-sub);border-radius:8px;padding:6px 8px;margin-top:5px;border:1.5px solid var(--accent)}
-.banner{margin:8px 12px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:8px 10px;font-weight:700;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--phone-bg);border-radius:16px 16px 0 0;padding:16px 14px}
+.sheet h4{margin:0;font-size:15px}
+.sheet p{font-size:11.5px;color:var(--muted);margin:6px 0 12px}
 .card{margin:8px 12px;border-radius:12px;background:var(--phone-sub);padding:10px 11px}
-.card.gen{background:var(--phone-bg);border:1.5px solid var(--accent)}
 .card .ct{font-weight:700;font-size:12.5px;line-height:1.35}
 .card .cm{font-size:10px;color:var(--muted);margin-top:3px}
-.card .cs{font-size:10.5px;color:var(--muted);margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tabs{display:flex;gap:12px;padding:6px 12px;border-bottom:1px solid var(--phone-sub);font-size:11.5px;color:var(--muted)}
-.tabs b{color:var(--phone-fg);border-bottom:2px solid var(--accent);padding-bottom:3px}
-.tabs .off{opacity:.45}
-.push{margin:10px;background:var(--phone-sub);border-radius:14px;padding:9px 10px;display:flex;gap:8px;box-shadow:0 4px 14px rgba(0,0,0,.1)}
-.push .logo{flex:0 0 22px;width:22px;height:22px}
-.toast{position:absolute;left:50%;top:44%;transform:translateX(-50%);background:rgba(20,20,20,.85);color:#fff;padding:7px 12px;border-radius:8px;font-size:11px;white-space:nowrap}
-.caption{text-align:center;font-size:13px;color:var(--muted);margin-top:8px}
-.phones{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px}
-.phones > div{min-width:0}
-.callout{background:var(--accent-soft);border-radius:10px;padding:14px 16px;margin-top:16px}
-.callout b{color:var(--accent)}
-pre.mermaid{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto}
+.card .cs{font-size:10.5px;color:var(--muted);margin-top:5px}
 </style>
 
 <div class="wrap">
-  <h1>录音台 NFC 分享纪要 · 体验优化方案</h1>
-  <p class="lead">范围：录音台录完后，手机碰一碰 NFC 打开 H5 纪要页 → 保存笔记 → 回到得到大脑 App 查看。本文基于 2026-09-29 的实机录屏（35 秒）梳理问题，给出 H5 与 App 两端的页面呈现、交互逻辑、状态定义和接口要求，开发可按此直接改。</p>
-  <div class="meta"><span>版本 v1.0</span><span>2026-09-29</span><span>涉及端：H5（biji.com 分享页）、iOS/Android App、服务端</span></div>
+  <h1>录音台 NFC 分享纪要 · 体验优化</h1>
+  <p class="lead">目标只有一个：纪要要等几分钟才能生成，让用户清楚<b>现在能看什么、还要等多久、之后去哪看</b>。</p>
 
-  <div class="summary">
-    <div><b>核心思路：把"等待"变成看得见的进度</b><span>纪要生成需要时间这件事不回避，而是明确告诉用户：现在能看什么（速览版）、还要等多久、生成好了去哪看、会不会通知我。</span></div>
-    <div><b>H5：一个状态卡 + 一条底部操作栏</b><span>去掉 24 小时气泡和"查看同步进度"，状态卡显示阶段和预计完成时间；保存后直接告诉用户"会出现在 App 笔记列表第一条"，并能一键打开 App 对应笔记。</span></div>
-    <div><b>App：生成中的笔记直接进列表</b><span>取消右上角云朵小入口，生成中的笔记作为列表第一张卡片展示，可点进详情看速览版和进度，生成完成后原地刷新并推送通知。</span></div>
-  </div>
-
-  <!-- ===================== 1 ===================== -->
-  <h2><span class="no">01</span>现状走查</h2>
-  <p>录屏里的实际流程，按时间顺序：</p>
+  <h2>现状问题</h2>
   <div class="shots">
-    <div class="shot"><img src="img/01-h5-loading.jpg" alt="碰一碰后先闪出上一次分享的旧页面"><div class="cap"><b>0:04</b>碰一碰后 Safari 先闪出上一条已生成笔记的页面，再变成骨架屏，用户会以为打开错了。</div></div>
-    <div class="shot"><img src="img/02-h5-first.jpg" alt="AI深度分析中首屏"><div class="cap"><b>0:06</b>首屏是"AI深度分析中"，但没有会议标题、时间、时长，看不出是哪场会；进度也没有时间预期。24 小时气泡压住正文和按钮。</div></div>
-    <div class="shot"><img src="img/03-save-modal.jpg" alt="保存成功弹窗"><div class="cap"><b>0:15</b>"保存成功，稍后将自动推送到你的笔记列表"：没说推送到哪个 App、要多久、会不会提醒；只有一个"查看同步进度"按钮，没有关闭。</div></div>
-    <div class="shot"><img src="img/04-sync-error.jpg" alt="Network Error 和暂无同步中的录音"><div class="cap"><b>0:19</b>点"查看同步进度"报 Network Error，面板显示"暂无同步中的录音"，与刚才的"保存成功"矛盾，用户会以为保存失败。</div></div>
-    <div class="shot"><img src="img/05-app-list.jpg" alt="App 笔记列表"><div class="cap"><b>0:30</b>回 App 下拉刷新，列表里没有刚保存的笔记，只在"笔记列表"标题右侧多了一个很小的云朵图标。</div></div>
-    <div class="shot"><img src="img/06-app-sync-sheet.jpg" alt="App 同步面板"><div class="cap"><b>0:31</b>点云朵才看到"2026-09-29 11:57 会议 · 11m · 正在生成中…"，卡片不能点开，"11m"含义不明，看不到任何内容。</div></div>
+    <div class="shot"><img src="img/02-h5-first.jpg" alt="H5 生成中首屏"><p>看不出是哪场会，也不知道要等多久；24 小时气泡挡住正文。</p></div>
+    <div class="shot"><img src="img/03-save-modal.jpg" alt="保存成功弹窗"><p>"推送到你的笔记列表"没说在哪、多久；只有一个按钮。</p></div>
+    <div class="shot"><img src="img/04-sync-error.jpg" alt="同步进度报错"><p><span class="bug">缺陷：</span>点"查看同步进度"报 Network Error，还显示"暂无同步中的录音"。</p></div>
+    <div class="shot"><img src="img/05-app-list.jpg" alt="App 笔记列表"><p>回 App 列表里找不到这条笔记，只有右上角一个小云朵。</p></div>
+    <div class="shot"><img src="img/06-app-sync-sheet.jpg" alt="App 同步面板"><p>点开云朵也不能看内容，"11m"看不懂。</p></div>
   </div>
 
-  <h3>问题清单</h3>
-  <div class="issues">
-    <div class="issue"><span class="id">H5-1</span><div><span class="tag p0">P0 缺陷</span> "查看同步进度"接口报 Network Error，并展示"暂无同步中的录音"空态。<small>H5 端大概率未带登录态或调用了 App 侧接口。方案里 H5 不再提供该入口（见 02），但接口错误本身也要修，且任何接口失败都不能落到"暂无"空态，应展示"加载失败，点击重试"。</small></div></div>
-    <div class="issue"><span class="id">H5-2</span><div><span class="tag p1">P1 体验</span> 生成中页面没有会议元信息（标题/录音时间/时长/录音台名称）。<small>已生成页面有这些信息，生成中页面却只有"AI深度分析中"。用户无法确认这是刚才那场会，也和 App 里显示的"2026-09-29 11:57 会议"对不上。</small></div></div>
-    <div class="issue"><span class="id">H5-3</span><div><span class="tag p1">P1 体验</span> "AI深度分析中"只有文案，没有阶段、进度和预计时间。<small>"当前展示实时总结，完整版生成后将自动更新"：用户不知道"实时总结"和"完整版"差在哪、要等几分钟、离开页面后还会不会更新。</small></div></div>
-    <div class="issue"><span class="id">H5-4</span><div><span class="tag p1">P1 体验</span> 24 小时失效气泡常驻，遮挡正文和主按钮，文案重复。<small>"有效期为24小时，将于24小时后失效"说了两遍同一件事；已生成页面显示"23小时59分钟"，生成中页面显示"24小时"，口径不一致。</small></div></div>
-    <div class="issue"><span class="id">H5-5</span><div><span class="tag p1">P1 体验</span> 保存后的弹窗没有说清去向，唯一按钮通向报错页。<small>没提"得到大脑 App"、没提"笔记列表"具体位置、没提预计完成时间、没提完成后会通知。弹窗无关闭按钮。</small></div></div>
-    <div class="issue"><span class="id">H5-6</span><div><span class="tag p2">P2 体验</span> 打开时先闪出旧页面（Safari 复用了上一次分享的标签页）。<small>新 URL 加载前的首帧应为当前页面骨架，旧内容不应以半透明形式出现。</small></div></div>
-    <div class="issue"><span class="id">APP-1</span><div><span class="tag p0">P0 体验</span> 保存后的生成中笔记不在笔记列表里，只能通过右上角云朵图标找到。<small>用户回到 App 的第一反应是在列表里找，找不到会以为没保存成功。</small></div></div>
-    <div class="issue"><span class="id">APP-2</span><div><span class="tag p1">P1 体验</span> 同步面板中的条目不可点击，看不到任何内容和进度。<small>用户在 H5 上已经看到过速览内容，到了 App 反而什么都看不到，体验倒退。</small></div></div>
-    <div class="issue"><span class="id">APP-3</span><div><span class="tag p2">P2 体验</span> "11:57 | 11m"含义不清。<small>应写成"时长 11 分钟"。同屏列表其他卡片用的是"时长：1分钟42秒"，格式需统一。</small></div></div>
-  </div>
+  <h2>H5 分享页</h2>
 
-  <!-- ===================== 2 ===================== -->
-  <h2><span class="no">02</span>统一的生成状态</h2>
-  <p>H5 和 App 必须读同一份状态、用同一套文案，否则两边说法对不上（现状就是这样）。服务端给每条会议笔记定义一个 <code>gen_status</code>，两端都按下表呈现：</p>
-  <div class="tbl"><table>
-    <thead><tr><th>gen_status</th><th>含义</th><th>用户能看到什么</th><th>状态文案（两端一致）</th><th>进度条</th></tr></thead>
-    <tbody>
-      <tr><td><code>uploading</code></td><td>录音台正在上传音频</td><td>会议元信息 + 骨架</td><td>录音上传中 · 约 1 分钟</td><td>0–15%</td></tr>
-      <tr><td><code>quick_ready</code></td><td>速览版已生成，深度分析排队中</td><td>速览版</td><td>速览版已就绪，完整纪要排队中</td><td>15–30%</td></tr>
-      <tr><td><code>analyzing</code></td><td>深度分析中</td><td>速览版</td><td>AI 深度分析中 · 预计 12:14 完成</td><td>30–95%，按预计时间平滑推进</td></tr>
-      <tr><td><code>done</code></td><td>完整纪要已生成</td><td>完整纪要（文字记录/智能总结/章节/待办等）</td><td>完整纪要已生成</td><td>隐藏</td></tr>
-      <tr><td><code>failed</code></td><td>生成失败</td><td>速览版（如有）+ 失败原因</td><td>生成失败，点击重试（录音已保留）</td><td>隐藏</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>名词统一</h3>
-  <ul class="clean">
-    <li><b>速览版</b>：替代现在的"实时总结/临时总结"。由实时转写快速生成，打开即可看，标注"速览版"标签和一句说明："根据实时转写快速整理，完整纪要生成后会自动替换"。</li>
-    <li><b>完整纪要</b>：替代"完整版"。</li>
-    <li><b>预计完成时间</b>：用绝对时间"预计 12:14 完成"，比倒计时更稳定，页面刷新不会跳。超过预计时间后改为"比预计稍慢，仍在处理"，不显示负数或 0。</li>
-  </ul>
-
-  <h3>状态流转</h3>
-  <pre class="mermaid">
-stateDiagram-v2
-  [*] --> uploading: 录音台结束录音
-  uploading --> quick_ready: 音频上传完成 + 速览生成
-  quick_ready --> analyzing: 进入深度分析
-  analyzing --> done: 生成成功
-  analyzing --> failed: 生成失败 / 超时
-  uploading --> failed: 上传失败
-  failed --> analyzing: 用户点击重试
-  done --> [*]
-  </pre>
-
-  <!-- ===================== 3 ===================== -->
-  <h2><span class="no">03</span>H5 分享页方案</h2>
-
-  <h3>3.1 首屏（生成中）</h3>
+  <h3>生成中</h3>
   <div class="spec">
     <div class="phone">
-      <div class="sb"><span>12:09</span><span>●●● 64</span></div>
+      <div class="sb"><span>12:09</span><span>64</span></div>
       <div class="body">
-        <div class="hd"><div class="logo">脑</div><div class="t"><b>得到大脑</b><span>朝阳 AI 分享给你一条智能笔记</span></div><span class="btn dark sm">打开App</span></div>
-        <div class="pad" style="padding-bottom:2px">
-          <div class="mtitle">9月29日 11:57 会议</div>
-          <div class="minfo">11:57–12:08 · 时长 11 分钟 · 会议室 A 录音台</div>
-        </div>
-        <div class="status">
-          <div class="row"><div class="owl">AI</div><div style="flex:1;min-width:0"><b>AI 深度分析中</b><div class="eta">预计 12:14 完成 · 可以先看下方速览版</div></div><span class="chip">为什么要等</span></div>
-          <div class="bar"><i></i></div>
-          <div class="steps"><span class="d">✓ 录音上传</span><span class="d">✓ 速览版</span><span class="c">● 深度分析</span><span>完整纪要</span></div>
-        </div>
-        <div class="pad" style="padding-top:4px">
-          <span class="chip acc">速览版</span> <span style="font-size:10px;color:var(--muted)">根据实时转写快速整理，完整纪要生成后自动替换</span>
+        <div class="hd"><div class="logo">脑</div><b>得到大脑</b><span class="btn dark sm">打开App</span></div>
+        <div class="pad" style="padding-bottom:6px"><div class="mtitle">9月29日 11:57 会议</div><div class="minfo">时长 11 分钟 · 会议室 A 录音台</div></div>
+        <div class="status"><b>AI 深度分析中</b><span>约 3 分钟后完成</span><div class="bar"><i></i></div></div>
+        <div class="pad" style="padding-top:0">
+          <span class="chip">速览</span>
           <div class="sec">城市 AI 岗位相关说明</div>
           <div class="li">北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位</div>
           <div class="li">16 座主要城市近三年 AI 岗位占比均提升，北京 4.8% 居首</div>
-          <div class="sec">武汉算法岗位相关说明</div>
-          <div class="li">武汉算法研发岗位总量已达郑州的三倍</div>
-        </div>
-        <div class="cta">
-          <div class="exp">链接 24 小时内有效（至 9月30日 12:09）· 保存后永久保留</div>
-          <div class="two"><span class="btn dark">保存到我的笔记</span><span class="btn ghost">打开 App 查看</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="notes">
-      <p><b>布局自上而下：</b></p>
-      <ol>
-        <li><span class="k">头部</span>保持现有"得到大脑 · 打开App"。</li>
-        <li><span class="k">会议信息</span>新增。标题：有 AI 标题用 AI 标题，否则用"M月D日 HH:mm 会议"；下面一行：起止时间 · 时长 · 录音台名称。与 App 列表卡片取同一字段。</li>
-        <li><span class="k">状态卡</span>替代现在的"AI深度分析中"大插画区，高度压缩到约 90px，让正文在首屏露出更多。内容：状态标题、预计完成时间、进度条、四步阶段条。
-          <ul class="clean">
-            <li>"为什么要等"点击展开一句说明：<i>"完整纪要需要 AI 通读整场录音，做发言人区分、章节梳理和待办提取，11 分钟的会议通常需要 5 分钟左右。"</i>时长数字按实际录音计算。</li>
-            <li>页面滚动时状态卡吸顶为一行细条："AI 深度分析中 · 预计 12:14 完成"，保证用户任何位置都知道还在生成。</li>
-          </ul>
-        </li>
-        <li><span class="k">速览版正文</span>顶部加"速览版"标签和一句说明，正文结构保持现状。</li>
-        <li><span class="k">底部操作栏</span>固定。主按钮"保存到我的笔记"，次按钮"打开 App 查看"。上方一行灰字写链接有效期，并把有效期和保存关联起来："保存后永久保留"。</li>
-      </ol>
-      <p><b>删除：</b>24 小时失效浮层气泡。</p>
-      <p><b>失效提醒升级规则</b>（仅在这些时刻打扰用户）：</p>
-      <ul class="clean">
-        <li>剩余 &gt; 1 小时：只显示底部灰字。</li>
-        <li>剩余 ≤ 1 小时且未保存：底部灰字变为橙色"链接将在 45 分钟后失效，保存后永久保留"。</li>
-        <li>已失效：整页替换为失效页（见 3.4）。</li>
-        <li>已保存：灰字改为"已保存到你的笔记，链接失效不影响查看"。</li>
-      </ul>
-      <p><b>加载：</b>首帧直接渲染骨架（会议信息 + 状态卡 + 正文骨架），不展示任何旧内容；对应问题 H5-6。</p>
-    </div>
-  </div>
-
-  <h3>3.2 点击"保存到我的笔记"</h3>
-  <div class="spec">
-    <div class="phone">
-      <div class="sb"><span>12:10</span><span>●●● 63</span></div>
-      <div class="body">
-        <div class="hd"><div class="logo">脑</div><div class="t"><b>得到大脑</b><span>朝阳 AI 分享给你一条智能笔记</span></div><span class="btn dark sm">打开App</span></div>
-        <div class="pad"><div class="mtitle">9月29日 11:57 会议</div><div class="minfo">11:57–12:08 · 时长 11 分钟</div></div>
-        <div class="status"><b>AI 深度分析中</b><div class="bar"><i></i></div></div>
-        <div class="pad"><div class="skel"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:60%"></div></div>
-        <div class="dim"></div>
-        <div class="sheet">
-          <h4><span class="ok-i">✓</span>已保存到你的笔记</h4>
-          <p style="font-size:11.5px;margin:8px 0 0;color:var(--muted)">完整纪要还在生成，<b style="color:var(--phone-fg)">预计 12:14 完成</b>。完成后会出现在得到大脑 App 的笔记列表，并发通知提醒你。现在打开 App 也能先看速览版。</p>
-          <div class="where">
-            <div style="font-size:10px;color:var(--muted)">在这里找到它：得到大脑 App › 首页 › 笔记列表 第一条</div>
-            <div class="mini"><div style="font-weight:700;font-size:11px">9月29日 11:57 会议</div><span class="chip acc">AI 深度分析中 · 预计 12:14</span></div>
-          </div>
-          <div class="two" style="display:flex;gap:8px;margin-top:12px"><span class="btn dark" style="flex:1;padding:9px 0">打开 App 查看</span><span class="btn ghost" style="flex:1;padding:9px 0">留在这里</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="notes">
-      <p><b>交互流程：</b></p>
-      <ol>
-        <li>点击后按钮进入 loading（"保存中…"，禁用）。</li>
-        <li><span class="k">未登录</span>拉起现有手机号登录浮层；登录成功后自动继续保存，不要求用户再点一次。</li>
-        <li><span class="k">成功</span>弹出底部面板（替代现在居中的"保存成功"弹窗）：
-          <ul class="clean">
-            <li>标题"已保存到你的笔记"。</li>
-            <li>正文必须包含三件事：<b>在哪</b>（得到大脑 App 笔记列表）、<b>多久</b>（预计完成时间）、<b>会提醒</b>（完成后发通知）。</li>
-            <li>"在这里找到它"：画一张缩略的列表卡片，和 App 里真实卡片样式一致，让用户回 App 时一眼认出。</li>
-            <li>按钮：主"打开 App 查看"（深链到这条笔记详情，见 3.5）；次"留在这里"关闭面板。点遮罩也可关闭。</li>
-          </ul>
-        </li>
-        <li><span class="k">失败</span>面板不弹，按钮恢复，toast："保存失败，请检查网络后重试"。</li>
-        <li><span class="k">重复保存</span>已保存过的用户（同账号同录音）再次打开，按钮直接展示为已保存状态（见 3.3），服务端保存接口需幂等。</li>
-      </ol>
-      <p><b>删除：</b>"查看同步进度"按钮和 H5 内的"笔记正在同步中"面板。H5 页面本身的状态卡就是进度，无需再开一个面板；该面板在 H5 上也拿不到数据（问题 H5-1）。</p>
-    </div>
-  </div>
-
-  <h3>3.3 保存后 &amp; 生成完成</h3>
-  <div class="spec">
-    <div class="phone">
-      <div class="sb"><span>12:14</span><span>●●● 60</span></div>
-      <div class="body">
-        <div class="hd"><div class="logo">脑</div><div class="t"><b>得到大脑</b><span>朝阳 AI 分享给你一条智能笔记</span></div><span class="btn dark sm">打开App</span></div>
-        <div class="pad" style="padding-bottom:0"><div class="mtitle">城市 AI 岗位分布与选城讨论</div><div class="minfo">9月29日 11:57–12:08 · 时长 11 分钟</div></div>
-        <div class="banner"><span>✓ 完整纪要已生成</span><span class="btn sm" style="background:var(--ok);color:#fff">查看</span></div>
-        <div class="pad" style="padding-top:0">
-          <span class="chip acc">速览版</span>
-          <div class="sec">城市 AI 岗位相关说明</div>
-          <div class="li">北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位</div>
-          <div class="li">16 座主要城市近三年 AI 岗位占比均提升</div>
           <div class="sec">AI 就业相关讨论</div>
           <div class="li">AI 人才不再仅集中于互联网行业</div>
         </div>
-        <div class="cta">
-          <div class="exp">已保存到你的笔记，链接失效不影响查看</div>
-          <div class="two"><span class="btn ghost">✓ 已保存</span><span class="btn dark">在 App 中查看完整纪要</span></div>
-        </div>
+        <div class="cta"><small>链接 24 小时内有效，保存后永久保留</small><span class="btn dark">保存笔记</span></div>
       </div>
     </div>
-    <div class="notes">
-      <p><b>保存后（仍在生成）：</b>底部栏变为 <code>✓ 已保存</code>（不可点，弱化）+ 主按钮"在 App 中查看"。状态卡不变，继续显示进度。</p>
-      <p><b>轮询：</b>页面可见时每 10 秒请求一次状态；5 分钟后放缓到 30 秒；页面切到后台（<code>visibilitychange</code>）暂停，回到前台立刻请求一次。<code>done</code> / <code>failed</code> 后停止。</p>
-      <p><b>完成时：</b></p>
-      <ol>
-        <li>不自动替换正文（用户可能正在读）。在状态卡位置换成绿色横幅"✓ 完整纪要已生成 [查看]"。</li>
-        <li>点"查看"：正文切换为完整纪要（与现在已生成页面一致，含文字记录/智能总结等 Tab），滚动回顶部，标题更新为 AI 标题。</li>
-        <li>若用户在 8 秒内没有滚动操作，自动切换，并 toast "已更新为完整纪要"。</li>
-        <li>已保存用户：底部主按钮文案变为"在 App 中查看完整纪要"。</li>
-      </ol>
-      <p><b>失败时：</b>状态卡变红"生成失败"，说明"录音已保留，可重试"，按钮"重试"（调重试接口，回到 <code>analyzing</code>）。速览版正文保留。</p>
-    </div>
-  </div>
-
-  <h3>3.4 链接失效页</h3>
-  <p>标题"这条分享已过期"，说明"分享链接 24 小时内有效。如果你保存过，可以在得到大脑 App 的笔记列表里查看"。按钮：已登录且已保存 →"在 App 中查看"；其他 →"打开得到大脑"。不展示正文。</p>
-
-  <h3>3.5 打开 App（深链）</h3>
-  <div class="tbl"><table>
-    <thead><tr><th>场景</th><th>行为</th></tr></thead>
-    <tbody>
-      <tr><td>已装 App · 已保存</td><td>Universal Link / App Links 打开 <code>dedaobrain://note/{note_id}?from=nfc_share</code>，直达该笔记详情页（生成中也可进）。</td></tr>
-      <tr><td>已装 App · 未保存</td><td>先执行保存（同 3.2 的登录逻辑，App 内以 App 登录态为准），再进详情。深链带 <code>share_id</code>，App 端收到后调用保存接口，成功 toast "已保存到你的笔记"。</td></tr>
-      <tr><td>未装 App</td><td>跳下载页；写入延迟深链（剪贴板口令或归因 SDK），首次安装登录后直接进入该笔记并自动保存。</td></tr>
-      <tr><td>深链失败（1.5 秒未离开页面）</td><td>底部 toast "未能打开 App，去下载"，不自动跳转商店。</td></tr>
-    </tbody>
-  </table></div>
-
-  <!-- ===================== 4 ===================== -->
-  <h2><span class="no">04</span>App 方案</h2>
-
-  <h3>4.1 笔记列表：生成中的笔记直接出现在列表第一条</h3>
-  <div class="spec">
-    <div class="phone">
-      <div class="sb"><span>12:10</span><span>●●● 63</span></div>
-      <div class="body">
-        <div style="display:flex;justify-content:space-between;padding:6px 12px"><span>☰</span><span class="chip acc">活动</span></div>
-        <div class="card" style="display:flex;gap:10px;align-items:center"><div class="owl">AI</div><div><div style="font-size:10px;color:var(--muted)">共</div><b style="font-size:20px">110</b> <span style="font-size:10px">条记忆</span></div></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 12px 0;font-weight:700;font-size:13px"><span>笔记列表</span><span style="color:var(--muted)">⚙</span></div>
-        <div class="card gen">
-          <div style="display:flex;justify-content:space-between;gap:6px;align-items:center"><span class="chip acc">● AI 深度分析中</span><span style="font-size:10px;color:var(--muted)">预计 12:14 完成</span></div>
-          <div class="ct" style="margin-top:6px">9月29日 11:57 会议</div>
-          <div class="cm">录音时间 11:57–12:08 · 时长 11 分钟 · 来自录音台</div>
-          <div class="cs">速览：北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位；16 座主要城市近三年 AI 岗位占比均提升…</div>
-          <div class="bar"><i></i></div>
-        </div>
-        <div class="card">
-          <div class="ct">乌兰察布依托资源优势发展 AI 数据中心与 AI 产业</div>
-          <div class="cm">录音时间 11:53–11:54 · 时长 1 分 42 秒</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:6px">13 分钟前更新</div>
-        </div>
-        <div class="card"><div class="ct">口型节奏练习口令</div><div class="cm">录音时间 9月7日 10:08 · 时长 23 秒</div></div>
-      </div>
-    </div>
-    <div class="notes">
-      <p><b>位置与排序：</b>生成中（<code>uploading / quick_ready / analyzing</code>）和生成失败的笔记，排在笔记列表最前面；多条时按创建时间倒序。完成后按正常规则排序（它本身是最新的，仍在第一条）。</p>
-      <p><b>卡片样式</b>（与普通笔记卡片同尺寸，增加状态信息）：</p>
-      <ol>
-        <li>第一行：状态胶囊"● AI 深度分析中"（橙色，圆点呼吸动效）+ 右侧"预计 12:14 完成"。</li>
-        <li>标题：同 H5 规则。生成完成后替换为 AI 标题。</li>
-        <li>元信息：录音时间 · 时长（"11 分钟"，不用"11m"）· 来源（来自录音台 / 来自分享）。</li>
-        <li>速览摘要：取速览版前 2 行，前缀"速览："。<code>uploading</code> 阶段显示两条骨架线。</li>
-        <li>底部细进度条，与 H5 同一进度值。</li>
-        <li>卡片 1.5px 橙色描边，完成后去掉描边、状态胶囊换成绿色"新"标签，打开后消失。</li>
-      </ol>
-      <p><b>点击：</b>进入生成中详情页（4.2）。长按/更多菜单只保留"删除"。</p>
-      <p><b>失败卡片：</b>状态胶囊红色"生成失败"，右侧"重试"按钮，点击直接重试，卡片回到分析中。</p>
-      <p><b>移除：</b>"笔记列表"标题右侧的云朵入口和"笔记正在同步中"面板。录音台本地上传中的录音同样用上述卡片展示（状态 <code>uploading</code>），不再需要单独入口。</p>
-      <p><b>刷新：</b>App 回到前台、进入首页时主动拉一次列表；列表中存在生成中卡片时，每 15 秒只拉这几条的状态（轻量接口），全部完成后停止。同时接收推送/长连接事件即时更新。</p>
-    </div>
-  </div>
-
-  <h3>4.2 生成中详情页</h3>
-  <div class="spec">
-    <div class="phone">
-      <div class="sb"><span>12:11</span><span>●●● 62</span></div>
-      <div class="body">
-        <div style="display:flex;justify-content:space-between;padding:6px 12px;font-size:13px"><span>‹</span><span style="color:var(--muted)">⋯</span></div>
-        <div class="pad" style="padding-top:0"><div class="mtitle">9月29日 11:57 会议</div><div class="minfo">11:57–12:08 · 时长 11 分钟 · 会议室 A 录音台</div></div>
-        <div style="margin:0 12px;background:var(--phone-sub);border-radius:8px;padding:6px 8px;font-size:10.5px;color:var(--muted)">▶ 00:00 ─────────── 11:02</div>
-        <div class="status">
-          <div class="row"><div class="owl">AI</div><div style="flex:1;min-width:0"><b>AI 深度分析中</b><div class="eta">预计 12:14 完成 · 完成后自动刷新并通知你</div></div></div>
-          <div class="bar"><i></i></div>
-          <div class="steps"><span class="d">✓ 录音上传</span><span class="d">✓ 速览版</span><span class="c">● 深度分析</span><span>完整纪要</span></div>
-        </div>
-        <div class="tabs"><b>速览</b><span>文字记录</span><span class="off">智能总结</span><span class="off">待办</span></div>
-        <div class="pad">
-          <span class="chip acc">速览版</span>
-          <div class="sec">城市 AI 岗位相关说明</div>
-          <div class="li">北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位</div>
-          <div class="li">16 座主要城市近三年 AI 岗位占比均提升，北京 4.8% 居首</div>
-          <div class="sec">AI 就业相关讨论</div>
-          <div class="li">AI 人才不再仅集中于互联网行业，可部署在精密零部件工厂</div>
-        </div>
-      </div>
-    </div>
-    <div class="notes">
-      <p>基于现有笔记详情页，增加生成中状态，效果对齐 H5：</p>
-      <ol>
-        <li><span class="k">头部</span>标题 + 会议信息 + 录音播放条（音频上传完成后即可播放）。</li>
-        <li><span class="k">状态卡</span>与 H5 同组件、同文案、同进度。副文案强调"可以先离开，完成后通知你"。</li>
-        <li><span class="k">Tab</span>
-          <ul class="clean">
-            <li>新增"速览"Tab，生成中默认选中。</li>
-            <li>"文字记录"：如有实时转写则可看，标注"实时转写，完整版会校对"。</li>
-            <li>"智能总结 / 章节 / 待办"等：置灰可点，点击内容区显示骨架 +"深度分析完成后可查看，预计 12:14"。</li>
-          </ul>
-        </li>
-        <li><span class="k">操作</span>生成中禁用：编辑、分享、AI 问答（入口置灰，点击 toast"纪要生成后可用"）。保留：播放录音、删除。</li>
-        <li><span class="k">完成</span>用户停留在该页时：状态卡变绿"完整纪要已生成"并淡出，Tab 自动切到"智能总结"，速览 Tab 移除，toast"完整纪要已生成"。不在页面时：通过推送/站内横幅通知（4.3）。</li>
-        <li><span class="k">失败</span>状态卡红色，说明失败原因 + "重试"按钮；速览内容保留。</li>
-      </ol>
-    </div>
-  </div>
-
-  <h3>4.3 完成通知</h3>
-  <div class="phones">
     <div>
-      <div class="phone" style="height:auto">
-        <div class="sb"><span>12:14</span><span>●●● 60</span></div>
-        <div class="body" style="height:180px;background:var(--phone-sub)">
-          <div class="push" style="background:var(--phone-bg)"><div class="logo">脑</div><div style="min-width:0"><b style="font-size:11.5px">会议纪要已生成</b><div style="font-size:10.5px;color:var(--muted)">「城市 AI 岗位分布与选城讨论」完整纪要已生成，包含 4 个议题、3 项待办，点击查看</div></div></div>
-        </div>
-      </div>
-      <div class="caption">系统推送（App 在后台）</div>
-    </div>
-    <div class="notes" style="flex:1;min-width:260px">
       <ul class="clean">
-        <li><b>系统推送：</b>App 不在前台时发送。标题"会议纪要已生成"，正文带 AI 标题和议题/待办数量。点击直达详情页。仅对保存了该笔记的账号发送。</li>
-        <li><b>站内横幅：</b>App 在前台但不在该笔记详情页时，顶部横幅"「城市 AI 岗位…」纪要已生成 [查看]"，4 秒后收起。</li>
-        <li><b>推送权限：</b>用户首次保存 NFC 纪要且未开通知权限时，在 App 内详情页状态卡下方显示一行"开启通知，纪要生成好第一时间告诉你 [开启]"，不弹系统框打断。</li>
-        <li><b>失败也通知：</b>"会议纪要生成失败，录音已保留，点击重试"。</li>
+        <li><b>加会议信息：</b>标题（没有 AI 标题时用"M月D日 HH:mm 会议"）+ 时长 + 录音台名称，和 App 里显示的一致。</li>
+        <li><b>状态条：</b>替换现在的大插画区，只写"AI 深度分析中 · 约 3 分钟后完成"加一根进度条。</li>
+        <li><b>正文：</b>顶部打"速览"标签，表示是先出的简版。</li>
+        <li><b>有效期：</b>删掉浮层气泡，改为按钮上方一行灰字。</li>
+        <li><b>生成完成：</b>正文自动换成完整纪要，状态条消失，toast"完整纪要已生成"。</li>
       </ul>
     </div>
   </div>
 
-  <!-- ===================== 5 ===================== -->
-  <h2><span class="no">05</span>服务端与接口要求</h2>
-  <h3>5.1 笔记数据增加字段</h3>
-  <div class="tbl"><table>
-    <thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
-    <tbody>
-      <tr><td><code>gen_status</code></td><td>enum</td><td><code>uploading | quick_ready | analyzing | done | failed</code></td></tr>
-      <tr><td><code>progress</code></td><td>int 0–100</td><td>按 02 的区间给出；<code>analyzing</code> 阶段按已用时/预计总时长线性推进，封顶 95</td></tr>
-      <tr><td><code>estimated_finish_at</code></td><td>timestamp</td><td>预计完成时间。初版按录音时长估算（如：60 秒 + 录音时长 × 0.3，按实际数据校准），排队时加上排队时长</td></tr>
-      <tr><td><code>title</code> / <code>title_source</code></td><td>string / enum</td><td>生成中为 <code>default</code>（"M月D日 HH:mm 会议"），完成后 <code>ai</code></td></tr>
-      <tr><td><code>record_start_at</code> / <code>record_end_at</code> / <code>duration_sec</code></td><td>timestamp / int</td><td>两端格式化统一：时长 &lt; 1 分钟"23 秒"，&lt; 1 小时"11 分钟"或"1 分 42 秒"，≥ 1 小时"1 小时 05 分"</td></tr>
-      <tr><td><code>device_name</code></td><td>string</td><td>录音台名称，用于"来自录音台 / 会议室 A 录音台"</td></tr>
-      <tr><td><code>quick_summary</code></td><td>markdown</td><td>速览版正文</td></tr>
-      <tr><td><code>fail_reason</code></td><td>string</td><td>面向用户的失败原因，如"录音过短""音频无法识别"</td></tr>
-      <tr><td><code>share_expire_at</code></td><td>timestamp</td><td>分享链接失效时间，H5 用它计算剩余时长</td></tr>
-      <tr><td><code>saved_by_viewer</code></td><td>bool</td><td>H5 请求时带登录态返回，用于直接展示"已保存"</td></tr>
-    </tbody>
-  </table></div>
-  <h3>5.2 接口</h3>
+  <h3>点击保存后</h3>
+  <div class="spec">
+    <div class="phone">
+      <div class="sb"><span>12:10</span><span>63</span></div>
+      <div class="body">
+        <div class="hd"><div class="logo">脑</div><b>得到大脑</b><span class="btn dark sm">打开App</span></div>
+        <div class="pad"><div class="mtitle">9月29日 11:57 会议</div><div class="minfo">时长 11 分钟 · 会议室 A 录音台</div></div>
+        <div class="status"><b>AI 深度分析中</b><span>约 3 分钟后完成</span><div class="bar"><i></i></div></div>
+        <div class="dim"></div>
+        <div class="sheet">
+          <h4>已保存</h4>
+          <p>纪要生成后会出现在得到大脑 App 的笔记列表第一条，完成时会通知你。</p>
+          <div style="display:flex;gap:8px"><span class="btn dark" style="flex:1;padding:9px 0">打开 App 查看</span><span class="btn ghost" style="flex:1;padding:9px 0">知道了</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li>居中弹窗改为底部面板，一句话说清：<b>去哪看</b>、<b>会通知</b>。</li>
+        <li>"打开 App 查看"直接进入这条笔记（深链带 <code>note_id</code>）；未装 App 跳下载页。</li>
+        <li><b>删掉"查看同步进度"</b>：H5 页面上的状态条就是进度。</li>
+        <li>关闭面板后，底部按钮变为"已保存 · 打开 App 查看"。</li>
+        <li>未登录时先走登录，登录后自动完成保存。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>得到大脑 App</h2>
+
+  <h3>笔记列表</h3>
+  <div class="spec">
+    <div class="phone">
+      <div class="sb"><span>12:10</span><span>63</span></div>
+      <div class="body">
+        <div style="padding:10px 12px 0;font-weight:700;font-size:13px">笔记列表</div>
+        <div class="card" style="background:var(--phone-bg);border:1px solid var(--line)">
+          <span class="chip">AI 分析中 · 约 3 分钟</span>
+          <div class="ct" style="margin-top:6px">9月29日 11:57 会议</div>
+          <div class="cm">时长 11 分钟 · 来自录音台</div>
+          <div class="cs">北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位…</div>
+        </div>
+        <div class="card">
+          <div class="ct">乌兰察布依托资源优势发展 AI 数据中心与 AI 产业</div>
+          <div class="cm">时长 1 分 42 秒 · 13 分钟前</div>
+        </div>
+        <div class="card"><div class="ct">口型节奏练习口令</div><div class="cm">时长 23 秒 · 9月7日</div></div>
+      </div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li>生成中的笔记<b>直接排在列表第一条</b>，和普通笔记同一种卡片，多一个"AI 分析中 · 约 3 分钟"标签，摘要显示速览内容。</li>
+        <li>去掉右上角云朵入口和"笔记正在同步中"面板。</li>
+        <li>生成完成后标签消失，标题换成 AI 标题。</li>
+        <li>生成失败时标签变为红色"生成失败，点击重试"。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>生成中详情页</h3>
+  <div class="spec">
+    <div class="phone">
+      <div class="sb"><span>12:11</span><span>62</span></div>
+      <div class="body">
+        <div style="padding:6px 12px;font-size:14px">‹</div>
+        <div class="pad" style="padding-top:0;padding-bottom:6px"><div class="mtitle">9月29日 11:57 会议</div><div class="minfo">时长 11 分钟 · 会议室 A 录音台</div></div>
+        <div class="status"><b>AI 深度分析中</b><span>约 3 分钟后完成</span><div class="bar"><i></i></div></div>
+        <div class="pad" style="padding-top:0">
+          <span class="chip">速览</span>
+          <div class="sec">城市 AI 岗位相关说明</div>
+          <div class="li">北京侧重大模型智能机器人，乌兰察布侧重服务器机房相关岗位</div>
+          <div class="li">16 座主要城市近三年 AI 岗位占比均提升，北京 4.8% 居首</div>
+          <div class="sec">AI 就业相关讨论</div>
+          <div class="li">AI 人才不再仅集中于互联网行业</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li>与 H5 生成中页面一致：会议信息 + 状态条 + 速览内容。</li>
+        <li>生成中不展示"文字记录 / 智能总结"等 Tab，完成后再出现。</li>
+        <li>生成完成：停留在页面时原地刷新为完整纪要；不在页面时发推送"会议纪要已生成"，点击进入本页。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>开发要点</h2>
   <ul class="clean">
-    <li><code>GET /share/{share_id}</code>：H5 首屏，返回会议信息 + 状态 + 速览/完整内容 + 有效期。无需登录；带登录态时额外返回 <code>saved_by_viewer</code> 和 <code>note_id</code>。</li>
-    <li><code>GET /share/{share_id}/status</code>：H5 轮询用轻量接口，仅返回 <code>gen_status / progress / estimated_finish_at / title</code>。</li>
-    <li><code>POST /share/{share_id}/save</code>：保存，幂等，返回 <code>note_id</code>。保存后的笔记与分享指向同一份生成任务，生成完成两边同时更新，不重复生成。</li>
-    <li><code>POST /notes/{note_id}/retry</code>：失败重试。</li>
-    <li><code>GET /notes/status?ids=…</code>：App 列表批量查询生成中笔记状态。</li>
-    <li>生成完成事件：触发推送（仅已保存账号）+ App 长连接消息。</li>
+    <li><span class="bug">先修：</span>"查看同步进度"接口报错；接口失败统一显示"加载失败，点击重试"，不能显示成空态。</li>
+    <li><b>状态统一：</b>服务端给笔记返回 <code>gen_status</code>（生成中 / 已完成 / 失败）和 <code>eta_seconds</code>（预计剩余秒数），H5 和 App 共用。</li>
+    <li><b>同一份数据：</b>H5 分享与保存后的笔记指向同一个生成任务，标题、时长两端取同一字段。保存接口幂等。</li>
+    <li><b>刷新：</b>H5 页面可见时每 10 秒查一次状态；App 列表有生成中笔记时每 15 秒查一次；完成后停止。</li>
+    <li><b>时长格式：</b>统一为"23 秒 / 1 分 42 秒 / 11 分钟"，不用"11m"。</li>
   </ul>
 
-  <!-- ===================== 6 ===================== -->
-  <h2><span class="no">06</span>文案对照</h2>
+  <h2>文案对照</h2>
   <div class="tbl"><table>
     <thead><tr><th>位置</th><th>现在</th><th>改为</th></tr></thead>
     <tbody>
-      <tr><td>H5 状态区</td><td>AI深度分析中 / 我正在快速扫描原始音频，抓取关键信息 / 当前展示实时总结，完整版生成后将自动更新</td><td>AI 深度分析中 / 预计 12:14 完成 · 可以先看下方速览版</td></tr>
-      <tr><td>H5 正文标签</td><td>（无）</td><td>速览版 · 根据实时转写快速整理，完整纪要生成后自动替换</td></tr>
-      <tr><td>H5 有效期</td><td>本会议链接有效期为24小时，将于24小时后失效（浮层气泡）</td><td>链接 24 小时内有效（至 9月30日 12:09）· 保存后永久保留（底部灰字）</td></tr>
-      <tr><td>H5 主按钮</td><td>保存笔记</td><td>保存到我的笔记</td></tr>
-      <tr><td>H5 保存成功</td><td>保存成功 / 当前笔记正在生成中，稍后将自动推送到你的笔记列表 / [查看同步进度]</td><td>已保存到你的笔记 / 完整纪要还在生成，预计 12:14 完成。完成后会出现在得到大脑 App 的笔记列表，并发通知提醒你。现在打开 App 也能先看速览版。/ [打开 App 查看] [留在这里]</td></tr>
-      <tr><td>H5 保存后按钮</td><td>查看同步进度</td><td>✓ 已保存 ｜ 在 App 中查看</td></tr>
-      <tr><td>App 生成中条目</td><td>2026-09-29 11:57 会议 / 11:57 | 11m / 正在生成中…</td><td>9月29日 11:57 会议 / 录音时间 11:57–12:08 · 时长 11 分钟 · 来自录音台 / ● AI 深度分析中 · 预计 12:14 完成</td></tr>
-      <tr><td>接口失败</td><td>Network Error / 暂无同步中的录音</td><td>加载失败，请检查网络后重试 [重试]</td></tr>
+      <tr><td>H5 状态</td><td>AI深度分析中 / 我正在快速扫描原始音频… / 当前展示实时总结，完整版生成后将自动更新</td><td>AI 深度分析中 · 约 3 分钟后完成</td></tr>
+      <tr><td>H5 有效期</td><td>本会议链接有效期为24小时，将于24小时后失效</td><td>链接 24 小时内有效，保存后永久保留</td></tr>
+      <tr><td>保存成功</td><td>保存成功 / 当前笔记正在生成中，稍后将自动推送到你的笔记列表 / [查看同步进度]</td><td>已保存 / 纪要生成后会出现在得到大脑 App 的笔记列表第一条，完成时会通知你 / [打开 App 查看] [知道了]</td></tr>
+      <tr><td>App 列表</td><td>正在生成中… · 11:57 | 11m</td><td>AI 分析中 · 约 3 分钟 · 时长 11 分钟</td></tr>
     </tbody>
   </table></div>
-
-  <!-- ===================== 7 ===================== -->
-  <h2><span class="no">07</span>排期建议与埋点</h2>
-  <div class="tbl"><table>
-    <thead><tr><th>阶段</th><th>内容</th><th>端</th></tr></thead>
-    <tbody>
-      <tr><td><span class="tag p0">一期 · 止血</span></td><td>修复 H5-1 报错；去掉 24 小时气泡改底部灰字；保存成功弹窗改文案并把按钮改成"打开 App 查看"（先深链到 App 首页）；App 生成中笔记插入列表第一条（先用简版卡片，可点进现有详情页的空态）；"11m"改为"时长 11 分钟"</td><td>H5 / App / 服务端</td></tr>
-      <tr><td><span class="tag p1">二期 · 进度可见</span></td><td>统一 <code>gen_status</code> 与预计完成时间；H5 状态卡 + 会议信息 + 速览标签 + 完成横幅；App 生成中卡片完整版 + 生成中详情页；深链直达笔记；移除云朵入口</td><td>全端</td></tr>
-      <tr><td><span class="tag p2">三期 · 闭环</span></td><td>完成推送与站内横幅；未装 App 延迟深链；预计时长按历史数据校准；失败重试</td><td>全端</td></tr>
-    </tbody>
-  </table></div>
-  <h3>埋点与观测指标</h3>
-  <ul class="clean">
-    <li>漏斗：NFC 打开 H5 → 首屏渲染完成 → 点击保存 → 保存成功 → 点击打开 App → App 打开该笔记 → 完成后打开完整纪要。</li>
-    <li>H5 停留时长、"为什么要等"点击率、完成横幅"查看"点击率。</li>
-    <li>App：生成中卡片点击率、生成中详情页停留、推送点击率、从保存到首次查看完整纪要的时长（核心指标，目标明显缩短）。</li>
-    <li>预计完成时间准确度：实际完成时间 − 预计完成时间 的分布，用于校准估算公式。</li>
-  </ul>
-
-  <div class="callout"><b>待确认：</b>① 生成中页面标题是否要用速览内容先生成一个临时 AI 标题（比"M月D日 HH:mm 会议"更好认，但完成后会变，需评估）；② 未登录用户在 H5 保存是否沿用现有登录组件；③ 实时转写"文字记录"在生成中是否可对外展示。</div>
 </div>
